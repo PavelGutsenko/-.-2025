@@ -10,7 +10,7 @@ def check_normality_shapiro(file_path, sheet_name, column_name):
     column_name (str): Имя столбца для проверки.
     """
     try:
-        #Чтение данных из Excel
+        # Чтение данных из Excel
         df = pd.read_excel(file_path, sheet_name=sheet_name)
     except FileNotFoundError:
         print(f"Ошибка: Файл '{file_path}' не найден.")
@@ -19,15 +19,15 @@ def check_normality_shapiro(file_path, sheet_name, column_name):
         print(f"Ошибка: Не удалось прочитать данные. Проверьте имя листа или формат файла. {e}")
         sys.exit(1)
     
-    #Проверяем, существует ли столбец
+    # Проверяем, существует ли столбец
     if column_name not in df.columns:
         print(f"Ошибка: Столбец '{column_name}' не найден в файле.")
         sys.exit(1)
     
-    #Извлечение ряда данных
+    # Извлечение ряда данных
     data = df[column_name].dropna() # Убираем пропущенные значения, если они есть
     
-    #Проведение теста Шапиро-Уилка
+    # Проведение теста Шапиро-Уилка
     # Тест не работает с выборками меньше 3 или больше 5000.
     if len(data) < 3 or len(data) > 5000:
         print("Предупреждение: Тест Шапиро-Уилка лучше всего подходит для выборок размером от 3 до 5000.")
@@ -35,10 +35,10 @@ def check_normality_shapiro(file_path, sheet_name, column_name):
             print(f"Недостаточно данных (n={len(data)}) для проведения теста.")
             return
         
-    #Запускаем тест
+    # апускаем тест
     stat, p_value = shapiro(data)
     
-    #Вывод результата
+    # Вывод результата
     alpha = 0.05 # Уровень значимости
     
     print(f"Результаты теста Шапиро-Уилка для столбца '{column_name}':")
@@ -58,3 +58,4 @@ if __name__ == "__main__":
     
 
     check_normality_shapiro(excel_file, sheet_name, data_column)
+
